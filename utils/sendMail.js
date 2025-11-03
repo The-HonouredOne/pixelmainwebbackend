@@ -44,7 +44,7 @@ const sendMail = async (to, subject, html) => {
     apiInstance.authentications["apiKey"].apiKey = process.env.BREVO_API_KEY;
 
     const sendSmtpEmail = {
-      sender: { name: "Pixel Genix", email: "your_verified_sender@domain.com" },
+      sender: { name: "Pixel Genix", email: process.env.ADMIN_EMAIL },
       to: [{ email: to }],
       subject,
       htmlContent: html,
