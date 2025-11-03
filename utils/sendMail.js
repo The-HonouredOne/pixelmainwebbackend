@@ -36,14 +36,12 @@
 
 
 // utils/sendMail.js
-const SibApiV3Sdk = require("@getbrevo/brevo");
+const Brevo = require("@getbrevo/brevo");
 
 const sendMail = async (to, subject, html) => {
   try {
-    const client = SibApiV3Sdk.ApiClient.instance;
-    client.authentications["api-key"].apiKey = process.env.BREVO_API_KEY;
-
-    const tranEmailApi = new SibApiV3Sdk.TransactionalEmailsApi();
+    const apiInstance = new Brevo.TransactionalEmailsApi();
+    apiInstance.authentications["apiKey"].apiKey = process.env.BREVO_API_KEY;
 
     const sendSmtpEmail = {
       sender: { name: "Pixel Genix", email: "your_verified_sender@domain.com" },
@@ -52,12 +50,11 @@ const sendMail = async (to, subject, html) => {
       htmlContent: html,
     };
 
-    const data = await tranEmailApi.sendTransacEmail(sendSmtpEmail);
-    console.log("✅ Email sent successfully:", data.messageId || data);
+    const response = await apiInstance.sendTransacEmail(sendSmtpEmail);
+    console.log("✅ Email sent successfully:", response.messageId || response);
   } catch (error) {
     console.error("❌ Error sending email:", error.message || error);
   }
 };
 
 module.exports = sendMail;
-
